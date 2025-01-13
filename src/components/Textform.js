@@ -34,14 +34,19 @@ export default function Textform(props) {
         // console.log("on change");
         setText(event.target.value) 
     }
-    const [text, setText] = useState('Enter your text here');
+    const [text, setText] = useState('');
+
+    const countWords = (text) => {
+        const words = text.trim().split(/\s+/)
+        return words[0] ===""?0:words.length
+    }
 return (
     <>
-<div className='constainer my-3'> 
+<div className='constainer my-3'style={{color:props.mode==='dark'?'white':'black'}}> 
     <h1>{props.heading}</h1>
     <div className ="mb-3">
 <label htmlFor="text" className="form-label my-4">Click on different buttons to analyze your text</label>
-<textarea className="form-control" value = {text}  onChange= {handleOnChange} id="text"   rows="8"></textarea>
+<textarea className="form-control" value = {text}  onChange= {handleOnChange} style = {{backgroundColor:props.mode==='dark'?'#042743':'white', color:props.mode==='dark'?'white':'black'}}id="text" rows="8"></textarea>
 </div>
 <button className='btn btn-primary me-4' onClick={handleUpClick}>Convert to Uppercase</button>
 <button className='btn btn-primary me-4' onClick={handleLowClick}>Convert to Lowercase</button>
@@ -52,10 +57,10 @@ return (
 </div>
 <div className='container my-4'>
 <h1>Your text summary</h1>
-<p>{text.split(" ").length} words and {text.length} characters</p>
-<p> {0.008 * (text.split(" ").length-1)} Minutes read </p>
+<p>{countWords(text)} words and {text.length} characters</p>
+<p> {0.008 * countWords(text)} Minutes read </p>
 <h2>Preview</h2>
-<p>{text}</p>
+<p>{text.length>0?text:'Enter something in the textbox above to preview it here'}</p>
 </div>
     </>
 )
